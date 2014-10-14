@@ -11,6 +11,10 @@ var MmoTest = (function (io){
   var socket = io();
   me.players = {};
 
+  var getPlayerName = function () {
+    return prompt("Player name:", "player");
+  };
+
   var addPlayer = function (player) {
     $('#game').append(player.div);
     me.players[player.name] = player;
