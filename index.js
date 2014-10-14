@@ -3,6 +3,8 @@ var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
+var players = [];
+
 app.use(express.static('public'));
 
 app.get('/', function(req, res){
@@ -10,24 +12,32 @@ app.get('/', function(req, res){
 });
 
 io.on('connection', function (socket) {
-  console.log('a user connected');
-  var playerName = "";
-
-  socket.on('chat message', function(message) {
-    io.emit('chat message', message);
-  });
-
-  socket.on('disconnect', function () {
-    console.log('user disconnected');
-  });
+  var player = {};
 
   socket.on('player joined', function (name) {
-    playerName = name;
+    player = {
+      name: name,
+      x: 0,
+      y: 0,
+    };
+
+    socket.emit('load players', players);
+
+    players.push(player);
+
     socket.broadcast.emit('player joined', name);
   });
 
   socket.on('player moved', function (x, y) {
-    socket.broadcast.emit('player moved', playerName, x, y);
+    player.x = x;
+    player.y = y;
+
+    socket.broadcast.emit(
+      'player moved',
+      player.name,
+      player.x,
+      player.y
+    );
   });
 });
 

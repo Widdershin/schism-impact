@@ -9,15 +9,11 @@ var MmoTest = (function (io){
   var me = {};
 
   var socket = io();
-  var players = {};
-
-  var getPlayerName = function () {
-    return prompt("Player name:", "player");
-  };
+  me.players = {};
 
   var addPlayer = function (player) {
     $('#game').append(player.div);
-    players[player.name] = player;
+    me.players[player.name] = player;
   };
 
   me.createPlayer = function () {
@@ -38,11 +34,17 @@ var MmoTest = (function (io){
   });
 
   socket.on('player moved', function(playerName, x, y) {
-    var player = players[playerName];
+    var player = me.players[playerName];
 
-    player.x = x;
-    player.y = y;
-    player.draw();
+    player.updatePosition(x, y);
+  });
+
+  socket.on('load players', function(players) {
+    players.forEach(function(player) {
+      var inGamePlayer = new Player(player.name);
+      inGamePlayer.updatePosition(player.x, player.y);
+      addPlayer(inGamePlayer);
+    });
   });
 
   return me;
@@ -80,6 +82,12 @@ Player.prototype.handleInput = function (e) {
     default:
       break;
   }
+  this.draw();
+}
+
+Player.prototype.updatePosition = function (x, y) {
+  this.x = x;
+  this.y = y;
   this.draw();
 }
 
