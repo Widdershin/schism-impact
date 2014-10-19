@@ -5,7 +5,8 @@ ig.module(
     'impact.game',
     'impact.font',
     'game.entities.player',
-    'game.entities.other_player'
+    'game.entities.other_player',
+    'game.entities.base_player'
 )
 .defines(function(){ "use strict";
 
