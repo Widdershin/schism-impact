@@ -15,7 +15,14 @@ ig.module(
         font: new ig.Font( 'media/04b03.font.png' ),
 
         players: {},
-
+        backgroundMaps: [
+            new ig.BackgroundMap(64, [
+                    [1, 1, 1, 1, 1],
+                    [1, 1, 1, 1, 1],
+                    [1, 1, 1, 1, 1],
+                    [1, 1, 1, 1, 1],
+                ], 'media/ground.png')
+        ],
 
         init: function() {
             this.spawnEntity(EntityPlayer, 30, 30);
@@ -43,6 +50,8 @@ ig.module(
             // Add your own drawing code here
             var x = ig.system.width/2,
                 y = ig.system.height/2;
+
+
         },
 
         loadPlayers: function (players) {
