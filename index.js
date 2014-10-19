@@ -3,7 +3,7 @@ var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
-var players = [];
+var players = {};
 
 app.use(express.static('public'));
 app.use(express.static('impact'));
@@ -16,6 +16,12 @@ app.get('/', function(req, res){
 io.on('connection', function (socket) {
   var player = {};
 
+  socket.on('disconnect', function () {
+    console.log(player.name + ' disconnected');
+    socket.broadcast.emit('player left', player.name);
+    delete players[player.name];
+  });
+
   socket.on('join game', function (name) {
     player = {
       name: name,
@@ -25,19 +31,21 @@ io.on('connection', function (socket) {
 
     console.info(name + ' joined game');
 
-    socket.emit('load players', players);
+    console.log('current players: ', players);
+    socket.emit('load', players);
 
-    players.push(player);
+    players[name] = player;
 
     socket.broadcast.emit('player joined', name);
   });
 
-  socket.on('player moved', function (x, y) {
+  socket.on('player move', function (x, y) {
+    console.log(player.name + ' moved to ', {x: x, y: y});
     player.x = x;
     player.y = y;
 
     socket.broadcast.emit(
-      'player moved',
+      'player move',
       player.name,
       player.x,
       player.y
