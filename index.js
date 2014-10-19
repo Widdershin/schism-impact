@@ -6,8 +6,8 @@ var io = require('socket.io')(http);
 var players = {};
 
 app.use(express.static('public'));
-app.use(express.static('impact'));
 app.use(express.static('schism'));
+app.use(express.static('impact'));
 
 app.get('/', function(req, res){
   res.sendFile('index.html', { root: __dirname });

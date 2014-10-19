@@ -12,6 +12,7 @@ ig.module(
         maxHealth: 100,
         health: 100,
         collides: ig.Entity.COLLIDES.ACTIVE,
+        type: ig.Entity.TYPE.A,
 
         size: {x: 32, y: 32},
         offset: {x: 16, y: 16},

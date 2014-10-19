@@ -28,7 +28,7 @@ ig.module(
         init: function() {
             ig.input.initMouse();
 
-            ig.input.bind(ig.KEY.MOUSE1, 'clicked');
+            ig.input.bind(ig.KEY.MOUSE1, 'click');
 
             var name = prompt('Name: ');
 
