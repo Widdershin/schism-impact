@@ -16,6 +16,9 @@ ig.module(
 
       init: function() {
         this.spawnEntity(EntityPlayer, 30, 30);
+        ig.input.initMouse();
+
+        ig.input.bind(ig.KEY.MOUSE1, 'clicked');
           // Initialize your game here; bind keys etc.
       },
 
