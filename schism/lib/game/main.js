@@ -26,13 +26,13 @@ ig.module(
         ],
 
         init: function() {
-            this.spawnEntity(EntityPlayer, 30, 30);
             ig.input.initMouse();
 
             ig.input.bind(ig.KEY.MOUSE1, 'clicked');
 
             var name = prompt('Name: ');
 
+            this.spawnEntity(EntityPlayer, 30, 30, name);
             socket.on('load', this.loadPlayers.bind(this));
             socket.on('player joined', this.addPlayer.bind(this));
             socket.on('player move', this.setPlayerDestination.bind(this));
@@ -61,12 +61,12 @@ ig.module(
             for (var playerName in players) {
                 var player = players[playerName];
                 console.log('Spawning ', player.name, player.x, player.y);
-                that.players[player.name] = that.spawnEntity(EntityOtherPlayer, player.x, player.y);
+                that.players[player.name] = that.spawnEntity(EntityOtherPlayer, player.x, player.y, player.name);
             };
         },
 
         addPlayer: function (name) {
-            this.players[name] = this.spawnEntity(EntityOtherPlayer, 15, 15);
+            this.players[name] = this.spawnEntity(EntityOtherPlayer, 15, 15, name);
         },
 
         setPlayerDestination: function (name, x, y) {
