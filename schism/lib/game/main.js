@@ -6,9 +6,9 @@ ig.module(
     'impact.font',
     'game.entities.player'
 )
-.defines(function(){
+.defines(function(){ "use strict;"
 
-  MyGame = ig.Game.extend({
+  var MyGame = ig.Game.extend({
 
       // Load a font
       font: new ig.Font( 'media/04b03.font.png' ),
