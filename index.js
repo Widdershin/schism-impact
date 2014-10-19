@@ -16,12 +16,14 @@ app.get('/', function(req, res){
 io.on('connection', function (socket) {
   var player = {};
 
-  socket.on('player joined', function (name) {
+  socket.on('join game', function (name) {
     player = {
       name: name,
       x: 0,
       y: 0,
     };
+
+    console.info(name + ' joined game');
 
     socket.emit('load players', players);
 

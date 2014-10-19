@@ -4,44 +4,54 @@ ig.module(
 .requires(
     'impact.game',
     'impact.font',
-    'game.entities.player'
+    'game.entities.player',
+    'game.entities.other_player'
 )
-.defines(function(){ "use strict;"
+.defines(function(){ "use strict";
 
-  var MyGame = ig.Game.extend({
+    var MyGame = ig.Game.extend({
 
       // Load a font
-      font: new ig.Font( 'media/04b03.font.png' ),
+        font: new ig.Font( 'media/04b03.font.png' ),
+
+        players: {},
 
 
-      init: function() {
-        this.spawnEntity(EntityPlayer, 30, 30);
-        ig.input.initMouse();
+        init: function() {
+            this.spawnEntity(EntityPlayer, 30, 30);
+            ig.input.initMouse();
 
-        ig.input.bind(ig.KEY.MOUSE1, 'clicked');
-          // Initialize your game here; bind keys etc.
-      },
+            ig.input.bind(ig.KEY.MOUSE1, 'clicked');
 
-      update: function() {
-          // Update all entities and backgroundMaps
-          this.parent();
+            var name = prompt('Name: ');
 
-          // Add your own, additional update code here
-      },
+            socket.emit('join game', name);
+            socket.on('load players', this.loadPlayers.bind(this));
+            socket.on('player joined', this.addPlayer.bind(this));
+        },
 
-      draw: function() {
-          // Draw all entities and backgroundMaps
-          this.parent();
+        update: function() {
+            this.parent();
+        },
 
-          // Add your own drawing code here
-          var x = ig.system.width/2,
-              y = ig.system.height/2;
-      }
-  });
+        draw: function() {
+            // Draw all entities and backgroundMaps
+            this.parent();
 
+            // Add your own drawing code here
+            var x = ig.system.width/2,
+                y = ig.system.height/2;
+        },
 
-  // Start the Game with 60fps, a resolution of 320x240, scaled
-  // up by a factor of 2
-  ig.main( '#canvas', MyGame, 60, 320, 240, 2 );
+        loadPlayers: function (players) {
+            console.log(players);
+        },
+
+        addPlayer: function (name) {
+            this.players[name] = this.spawnEntity(EntityOtherPlayer, 15, 15);
+        },
+    });
+
+    ig.main( '#canvas', MyGame, 60, 320, 240, 2 );
 
 });

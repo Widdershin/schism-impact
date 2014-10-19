@@ -1,12 +1,12 @@
 ig.module(
-    'game.entities.player'
+    'game.entities.other_player'
 )
 .requires(
     'impact.entity'
 )
 .defines(function(){
 
-    EntityPlayer = ig.Entity.extend({
+    EntityOtherPlayer = ig.Entity.extend({
         collides: ig.Entity.COLLIDES.ACTIVE,
 
         size: {x: 32, y: 32},
@@ -24,10 +24,6 @@ ig.module(
         },
 
         update: function() {
-            if (ig.input.pressed('clicked')) {
-                this.setDestination(ig.input.mouse.x, ig.input.mouse.y);
-            }
-
             function distanceBetween(p1, p2) {
                 a = p2.x - p1.x;
                 b = p2.y - p1.y;
@@ -59,5 +55,4 @@ ig.module(
             };
         }
     });
-
 });
