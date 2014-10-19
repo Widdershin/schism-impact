@@ -2,12 +2,14 @@ ig.module(
     'game.entities.base_player'
 )
 .requires(
-    'impact.entity'
+    'impact.entity',
+    'game.entities.health_bar'
 )
 .defines(function(){
 
     EntityBasePlayer = ig.Entity.extend({
 
+        maxHealth: 100,
         health: 100,
         collides: ig.Entity.COLLIDES.ACTIVE,
 
@@ -23,7 +25,7 @@ ig.module(
             this.setDestination(x, y);
 
             this.parent(x, y, settings);
-            this.healthBar = new HealthBar();
+            this.healthBar = ig.game.spawnEntity(HealthBar, 0, 0, this);
         },
 
         update: function() {
@@ -48,8 +50,6 @@ ig.module(
                 }
             }
 
-            this.healthBar.health = this.health;
-
             this.parent();
         },
 
@@ -62,7 +62,6 @@ ig.module(
 
         draw: function() {
             this.parent()
-            this.healthBar.draw(this)
         },
 
     });
