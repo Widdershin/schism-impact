@@ -3,10 +3,10 @@ ig.module(
 )
 .requires(
     'impact.entity',
-    'game.entities.base_player'
+    'game.entities.player'
 )
 .defines(function(){
 
-    EntityOtherPlayer = EntityBasePlayer.extend({
+    EntityOtherPlayer = EntityPlayer.extend({
     });
 });

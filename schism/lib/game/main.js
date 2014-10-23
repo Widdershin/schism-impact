@@ -6,7 +6,7 @@ ig.module(
     'impact.font',
     'game.entities.player',
     'game.entities.other_player',
-    'game.entities.base_player'
+    'game.entities.controllable_player'
 )
 .defines(function(){ "use strict";
 
@@ -32,7 +32,7 @@ ig.module(
 
             var name = prompt('Name: ');
 
-            this.spawnEntity(EntityPlayer, 30, 30, name);
+            this.spawnEntity(EntityControllablePlayer, 30, 30, name);
             socket.on('load', this.loadPlayers.bind(this));
             socket.on('player joined', this.addPlayer.bind(this));
             socket.on('player move', this.setPlayerDestination.bind(this));
